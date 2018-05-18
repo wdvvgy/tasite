@@ -1,12 +1,11 @@
 import nodemailer from 'nodemailer';
-
-const fromUri = 'sirius@lotte.net';
+require('dotenv').config();
+const { SMTP_URI: uri, SMTP_PORT: port } = process.env;
 
 const transporter = nodemailer.createTransport({
-    host: '10.131.3.245',
-    port: 25,
-    secure: false,
-
+    host: uri,
+    port: port,
+    secure: false
 });
 
-export { transporter, fromUri };
+export { transporter };

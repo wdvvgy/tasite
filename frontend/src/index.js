@@ -13,8 +13,8 @@ const render = Component => {
             <Component />
         </Provider>,
         document.getElementById('root'),
-    )
-}
+    );
+};
 
 render(App);
 

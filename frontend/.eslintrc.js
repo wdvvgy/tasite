@@ -1,5 +1,5 @@
 module.exports = {
-    "extends": "standard",
+    "extends": "react",
     "rules": {
         "indent": [
             "warn",

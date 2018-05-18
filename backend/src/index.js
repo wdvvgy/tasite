@@ -2,18 +2,22 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import api from './api';
 import mongoose from 'mongoose';
-import { uri } from './config/db';
+require('dotenv').config();
+const {
+    PORT: port,
+    MONGO_URI: mongoURI,
+    JWT_SECRET: jwtSecret
+} = process.env;
 
 const app = express();
-const port = 4000;
 
 app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(bodyParser.json());
-app.set('jwt-secret', 'secretKEYforPROJECT');
+app.set('jwt-secret', jwtSecret);
 
-mongoose.connect(uri);
+mongoose.connect(mongoURI);
 const db = mongoose.connection;
 db.on('error', console.error);
 db.once('open', () => { console.log('Connected to mongodb server'); });
