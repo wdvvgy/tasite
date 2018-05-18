@@ -1,0 +1,1 @@
+export const logError = (func) => console.warn(func + ' is not defined');

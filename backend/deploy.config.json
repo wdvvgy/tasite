@@ -1,0 +1,10 @@
+{
+    "apps": [{
+      "name": "server",
+      "script" : "./src",
+      "interpreter" : "babel-node",
+      "env": {
+        "NODE_PATH": "src"
+      }
+    }]
+  }
