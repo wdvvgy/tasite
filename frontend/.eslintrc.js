@@ -1,9 +1,9 @@
 module.exports = {
-    "extends": "react",
+    "extends": "react-app",
     "rules": {
         "indent": [
             "warn",
-            4
+            "tab"
         ],
         "semi": [
             "error",

@@ -7,11 +7,11 @@ import Tech from './tech/Tech';
 import Footer from './Footer';
 
 export {
-    App,
-    Header,
-    Main,
-    Auth,
-    Book,
-    Tech,
-    Footer
+	App,
+	Header,
+	Main,
+	Auth,
+	Book,
+	Tech,
+	Footer
 };
