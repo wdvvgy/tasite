@@ -41,9 +41,10 @@ export const authRegister = (auth) => dispatch => {
 	return axios.post('/api/auth/register', {
 		auth
 	}).then((res) => {
-		dispatch({type: AUTH_REGISTER_SUCCESS, payload: res});
+		dispatch({type: AUTH_REGISTER_SUCCESS, payload: res.data.message});
 	}).catch((error) => {
 		switch(error.response.data.key) {
+		case 'ALREADY JOINED': dispatch({type: AUTH_REGISTER_FAILURE, payload: error.response.data.message}); break;
 		case 'PROCEEDING': dispatch({type: AUTH_REGISTER_PROCEEDING, payload: error.response.data.message}); break;
 		case 'EXCEPTION': dispatch({type: AUTH_REGISTER_FAILURE, payload: error.response.data.message}); break;
 		default: break;
@@ -63,7 +64,6 @@ const initialState = Map({
 	register: Map({
 		status: 'INIT',
 		desc: '',
-		token: '',
 	})
 });
 

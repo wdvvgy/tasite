@@ -15,7 +15,6 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(bodyParser.json());
-app.set('jwt-secret', jwtSecret);
 
 mongoose.connect(mongoURI);
 const db = mongoose.connection;

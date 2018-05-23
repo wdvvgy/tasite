@@ -8,7 +8,6 @@ const Auth = new Schema({
     pw: String,
     created: { type: Date, default: Date.now },
     authorized: { type: Boolean, default: false },
-    token: ''
 });
 
 // generates hash
