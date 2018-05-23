@@ -9,6 +9,7 @@ import { withRouter, Link } from 'react-router-dom';
 import Icon from 'material-ui/Icon';
 import PropTypes from 'prop-types';
 import { logError } from 'util';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const styles = theme =>  ({
 	root: {
@@ -70,11 +71,6 @@ class AuthCom extends Component {
 			return false;
 		}
 
-		if(this.state.email.split('@').length !== 2){
-			this.setState({ open: true, dialogMessage: '올바른 EMAIL 형식으로 입력해주세요.' });
-			return false;
-		}
-
 		if(this.state.pw === ''){
 			this.setState({ open: true, dialogMessage: 'Password를 입력해주세요.' });
 			return false;
@@ -112,7 +108,7 @@ class AuthCom extends Component {
 		}
 
 		const formData = {
-			email: this.state.email,
+			email: this.state.email + '@lotte.net',
 			pw: this.state.pw
 		};
 
@@ -130,14 +126,14 @@ class AuthCom extends Component {
 
 	handleLogin = () => {
 		if(this.state.email === ''){
-			this.setState({ open: true, dialogMessage: 'EMAIL 을 입력해주세요.' });
+			this.setState({ open: true, dialogMessage: 'Moin ID 를 입력해주세요.' });
 			return;
 		}
 
 		if(!this.validationCheck()) return;
 
 		const formData = {
-			email: this.state.email,
+			email: this.state.email + '@lotte.net',
 			pw: this.state.pw
 		};
 
@@ -190,10 +186,20 @@ class AuthCom extends Component {
 								<TextField
 									required
 									onChange={this.handleChange}
-									label="Lotte Email"
+									label="Moin ID"
 									name='email'
 									className={classes.input}
-								/>
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="start">
+												@lotte.net
+										  	</InputAdornment>
+										),
+									}}
+								>
+								asd
+								</TextField>
+								
 							</FormControl>
 						</Grid>
 						<Grid container justify='center'>
@@ -205,7 +211,8 @@ class AuthCom extends Component {
 									type="password"
 									label="Password"
 									className={classes.input}
-								/>  
+								/>
+								
 							</FormControl>
 						</Grid>
 						{ this.state.mode === false ? passwordCheckForm : ""}

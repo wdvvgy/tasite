@@ -73,7 +73,7 @@ api.get('/token/:token', async (req, res) => {
         auth.authorized = true;
         await auth.save();
 
-        res.status(200).send(<a href='http://localhost:3000/auth'>로그인 하러가기</a>);
+        res.status(200).send("<a href='http://localhost:3000/auth'>로그인 하러가기</a>");
     } catch(e) {
         console.error(e.message);
         if(e.status){
