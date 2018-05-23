@@ -1,7 +1,8 @@
-export const func = async () => {
-    let result = '';
-    await setTimeout(() => {
-        result = 'func';
-    }, 1000);
-    return result;
-};
+import express from 'express';
+
+export const func = (x) => new Promise(resolve => {
+    setTimeout(() => {
+        console.log('in setTimeout');
+        resolve(x);
+    }, 2000);
+});
