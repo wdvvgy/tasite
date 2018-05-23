@@ -17,15 +17,15 @@ const styles = {
 };
 
 const Footer = ({classes}) => (
-    <div className={classes.footer}>
-        <footer>
-            <Paper className={classes.footerPaper}>
-                <Typography variant="headline" component="h4">
+	<div className={classes.footer}>
+		<footer>
+			<Paper className={classes.footerPaper}>
+				<Typography variant="headline" component="h4">
                     Footer
-                </Typography>
-            </Paper>
-        </footer>
-    </div>
-)
+				</Typography>
+			</Paper>
+		</footer>
+	</div>
+);
 
 export default withStyles(styles)(Footer);

@@ -8,11 +8,11 @@ import { logError } from 'util';
 class Book extends Component {
 
     static propTypes = {
-        createStatus: PropTypes.string,
-        getStatus: PropTypes.string,
-        book: PropTypes.array,
-        bookCreate: PropTypes.func.isRequired,
-        bookGet: PropTypes.func.isRequired,
+		createStatus: PropTypes.string,
+		getStatus: PropTypes.string,
+		book: PropTypes.array,
+		bookCreate: PropTypes.func.isRequired,
+		bookGet: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
@@ -29,12 +29,12 @@ class Book extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState){
-        if(this.props.book.length === 0 && nextProps.book.length === 0) return false;
-        console.log('book scu')
-        console.log('thispropsbook',this.props.book)
-        console.log('nextbook', nextProps.book);
-        console.log(this.props.book !== nextProps.book)
-        return this.props.book !== nextProps.book;
+		if(this.props.book.length === 0 && nextProps.book.length === 0) return false;
+		console.log('book scu');
+		console.log('thispropsbook',this.props.book);
+		console.log('nextbook', nextProps.book);
+		console.log(this.props.book !== nextProps.book);
+		return this.props.book !== nextProps.book;
     }
 
     handleBookCreate = (book) => {

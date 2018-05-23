@@ -1,10 +1,13 @@
 module.exports = {
-    "extends": "standard",
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "plugins": [
+        "react",
+        "jsx-a11y",
+        "import"
+    ],
     "rules": {
-        "indent": [
-            "warn",
-            4
-        ],
+        "indent": [2, "tab"],
         "semi": [
             "error",
             "always"

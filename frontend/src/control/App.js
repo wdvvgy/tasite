@@ -10,6 +10,6 @@ const App = () => (
 			<Route path='/' component={Main} />
 		</Switch>
 	</Router>
-)
+);
 
 export default hot(module)(App);
