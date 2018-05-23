@@ -1,8 +1,8 @@
 import express from 'express';
 import * as auth from './auth';
 import { authErrors } from 'error';
-import { rejects } from 'assert';
 import { Auth } from 'model';
+import authMiddleware from 'middleware/auth';
 
 const api = express.Router();
 
@@ -21,8 +21,6 @@ api.get('/', async (req, res) => {
 api.post('/login', async (req, res) => {
     try {
         const { email, pw } = req.body.auth;
-        console.log('email', email);
-        console.log('pw', pw);
         await auth.checkPw({ email, pw });
         const token = await auth.createToken(email);
         res.status(200).json({ token: token });
@@ -62,7 +60,7 @@ api.post('/register', async (req, res) => {
 
 /*
     회원가입 프로세스중 하나인 이메일 인증.
-    response: just message
+    response: 로그인 Link
 */
 api.get('/token/:token', async (req, res) => {
     try {
@@ -75,7 +73,7 @@ api.get('/token/:token', async (req, res) => {
         auth.authorized = true;
         await auth.save();
 
-        res.status(200).json({ message: 'SUCCESS' });
+        res.status(200).send(<a href='http://localhost:3000/auth'>로그인 하러가기</a>);
     } catch(e) {
         console.error(e.message);
         if(e.status){
@@ -85,6 +83,14 @@ api.get('/token/:token', async (req, res) => {
             res.status(error.status).json({ message: error.message });
         }
     }
+});
+
+/*
+    인증된 사용자인지 체크
+*/
+api.use('/check', authMiddleware);
+api.post('/check', async (req, res) => {
+    res.status(200).json({ message: 'success' });
 });
 
 export default api;

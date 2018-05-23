@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+require('dotenv').config();
+const { JWT_SECRET: jwtSecret } = process.env;
 
 const authMiddleware = (req, res, next) => {
     // read the token from header or url
@@ -17,16 +19,15 @@ const authMiddleware = (req, res, next) => {
     // create a promise that decodes the token
     const p = new Promise(
         (resolve, reject) => {
-            jwt.verify(token, req.app.get('jwt-secret'), (err, decoded) => {
+            jwt.verify(token, jwtSecret, (err, decoded) => {
                 if(err) reject(err);
-                resolve(decoded);
+                resolve();
             });
         }
     );
 
     // if it has failed to verify, it will return an error message
     const onError = (error) => {
-        console.log('auth error!');
         // 401 Unauthorized
         res.status(401).json({
             success: false,
@@ -37,8 +38,7 @@ const authMiddleware = (req, res, next) => {
     };
 
     // process the promise
-    p.then((decoded)=>{
-        req.decoded = decoded;
+    p.then(() => {
         next();
     }).catch(onError);
 };
