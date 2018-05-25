@@ -6,23 +6,23 @@ require('dotenv').config();
 const { JWT_SECRET: jwtSecret, SMTP_FROM: from, PORT: port } = process.env;
 
 const mailOption = ({ email, token }) => {
-    return {
-        from: from,
-        to: email,
-        subject: 'TA 사이트 가입 인증 메일',
+	return {
+		from: from,
+		to: email,
+		subject: 'TA 사이트 가입 인증 메일',
 		html:
 			`
 				<p> 아래 링크를 눌러주세요.</p>
 				<a href="http://localhost:${port}/api/auth/token/${token}">인증하기</a>
-            `
-    };
+			`
+	};
 };
 
 export const func = (x) => new Promise(resolve => {
-    setTimeout(() => {
-        console.log('in setTimeout');
-        resolve(x);
-    }, 2000);
+	setTimeout(() => {
+		console.log('in setTimeout');
+		resolve(x);
+	}, 2000);
 });
 
 /* 
@@ -31,12 +31,12 @@ export const func = (x) => new Promise(resolve => {
 	out: auth(object)	
 */
 export const checkExist = (email) => new Promise(async (resolve, reject) => {
-    if(!email) reject(authErrors.get('BAD REQUEST'));
+	if(!email) reject(authErrors.get('BAD REQUEST'));
 
-    const exist = await Auth.findOne({ email });
-    if(!exist) reject(authErrors.get('NO EXIST INFO'));
+	const exist = await Auth.findOne({ email });
+	if(!exist) reject(authErrors.get('NO EXIST INFO'));
 
-    resolve(exist);
+	resolve(exist);
 });
 
 /* 
@@ -45,21 +45,21 @@ export const checkExist = (email) => new Promise(async (resolve, reject) => {
 	out: void
 */
 export const checkPw = ({ email, pw }) => new Promise(async (resolve, reject) => {
-    try {
-        if(!email || !pw) return reject(authErrors.get('BAD REQUEST'));
+	try {
+		if(!email || !pw) return reject(authErrors.get('BAD REQUEST'));
 
-        /* PW Check */
-        const auth = await checkExist(email);
-        if(!auth.validateHash(pw)) return reject(authErrors.get('NO EXIST INFO'));
+		/* PW Check */
+		const auth = await checkExist(email);
+		if(!auth.validateHash(pw)) return reject(authErrors.get('NO EXIST INFO'));
 
-        /* Authorized Check */
-        if(!auth.authorized) return reject(authErrors.get('PROCEEDING'));
+		/* Authorized Check */
+		if(!auth.authorized) return reject(authErrors.get('PROCEEDING'));
 
-        resolve();
-    } catch(e) {
-        reject(e);
-    }
-    
+		resolve();
+	} catch(e) {
+		reject(e);
+	}
+	
 });
 
 /* 
@@ -68,21 +68,21 @@ export const checkPw = ({ email, pw }) => new Promise(async (resolve, reject) =>
 	out: token(string)
 */
 export const createToken = (email) => new Promise(async (resolve, reject) => {
-    try {
-        jwt.sign({ id: email }, jwtSecret, {
-            expiresIn: '1d',
-            issuer: 'TATeam',
-            subject: 'auth'
-        }, (err, token) => {
-            if(err) {
-                console.error(err);
-                return reject(authErrors.get('EXCEPTION'));
-            }
-            resolve(token);
-        });
-    } catch(e) {
-        reject(e);
-    }
+	try {
+		jwt.sign({ id: email }, jwtSecret, {
+			expiresIn: '1d',
+			issuer: 'TATeam',
+			subject: 'auth'
+		}, (err, token) => {
+			if(err) {
+				console.error(err);
+				return reject(authErrors.get('EXCEPTION'));
+			}
+			resolve(token);
+		});
+	} catch(e) {
+		reject(e);
+	}
 });
 
 /* 
@@ -91,20 +91,20 @@ export const createToken = (email) => new Promise(async (resolve, reject) => {
 	out: void
 */
 export const save = ({ email, pw }) => new Promise(async (resolve, reject) => {
-    try {
-        if(!email || !pw) return reject(authErrors.get('BAD REQUEST'));
-        
+	try {
+		if(!email || !pw) return reject(authErrors.get('BAD REQUEST'));
+		
 		let auth = await Auth.findOne({ email });
 		if(auth) return reject(authErrors.get(auth.authorized ? 'ALREADY JOINED' : 'PROCEEDING'));
 		
 		auth = new Auth({ email, pw });
-        auth.pw = auth.generateHash(pw);
+		auth.pw = auth.generateHash(pw);
 		await auth.save();
 		resolve(auth._id);
-    } catch(e) {
-        reject(e);
-    }
-    
+	} catch(e) {
+		reject(e);
+	}
+	
 });
 
 /*
@@ -118,7 +118,19 @@ export const sendMail = ({ email, token }) => new Promise(async (resolve, reject
 		await transporter.sendMail(mailOpt);
 		resolve();
 	} catch(e) {
-        console.log('e', e);
+		console.log('e', e);
+		reject(e);
+	}
+});
+
+/*
+	회원 조회	
+*/
+export const getAuth = () => new Promise(async (resolve, reject) => {
+	try {
+		const users = await Auth.find().all();
+		resolve(users);
+	} catch(e) {
 		reject(e);
 	}
 });

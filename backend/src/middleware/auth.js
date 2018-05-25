@@ -4,8 +4,9 @@ const { JWT_SECRET: jwtSecret } = process.env;
 
 const authMiddleware = (req, res, next) => {
     // read the token from header or url
+    console.log(req.baseUrl);
     const token = req.headers['x-access-token'];
-    
+    console.log('token', token);
     // token does not exist
     if(!token) {
         // 401 Unauthorized

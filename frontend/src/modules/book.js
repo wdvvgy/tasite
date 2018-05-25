@@ -1,6 +1,7 @@
 import { handleActions } from 'redux-actions';
 import { Map, List } from 'immutable';
 import axios from 'axios';
+import { addTokenHeader } from '../util';
 
 export const BOOK_GET = "book/get";
 export const BOOK_GET_SUCCESS = "book/get/success";
@@ -12,21 +13,20 @@ export const BOOK_CREATE_FAILURE = "book/create/failure";
 
 const url = '/api/book';
 
-export const bookGet = () => dispatch => {
+export const bookGet = (token) => dispatch => {
 	dispatch({type: BOOK_GET});
-	return axios.get(url)
-		.then((res) => {
-			dispatch({type: BOOK_GET_SUCCESS, payload: res});
-		}).catch((error) => {
-			dispatch({type: BOOK_GET_FAILURE, payload: error});
-		});
+	return axios.get(url, addTokenHeader(token)
+	).then((res) => {
+		dispatch({type: BOOK_GET_SUCCESS, payload: res.data.book});
+	}).catch((error) => {
+		dispatch({type: BOOK_GET_FAILURE, payload: error});
+	});
 };
 
-export const bookCreate = (book) => dispatch => {
+export const bookCreate = ({ book, token }) => dispatch => {
 	dispatch({type: BOOK_CREATE});
-	return axios.post(url, {
-		book
-	}).then((res) => {
+	return axios.post(url, { book }, addTokenHeader(token)
+	).then((res) => {
 		dispatch({type: BOOK_CREATE_SUCCESS, payload: res});
 	}).catch((error) => {
 		dispatch({type: BOOK_CREATE_FAILURE, payload: error});
@@ -48,7 +48,7 @@ export default handleActions({
 	[BOOK_GET_SUCCESS]: (state, action) => {
 		return state
 			.set('getStatus', 'SUCCESS')
-			.set('book', action.payload.data);
+			.set('book', action.payload);
 	},
 	[BOOK_GET_FAILURE]: (state, action) => {
 		return state.set('getStatus', 'FAILURE');

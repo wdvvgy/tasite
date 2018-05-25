@@ -6,12 +6,12 @@ import authMiddleware from 'middleware/auth';
 
 const api = express.Router();
 
-api.get('/', async (req, res) => {
-    console.log('start');
-    const result = await auth.func();
-    console.log('end');
-    res.send('HelloWorld');
-});
+// api.get('/', async (req, res) => {
+//     console.log('start');
+//     const result = await auth.func();
+//     console.log('end');
+//     res.send('HelloWorld');
+// });
 
 /*
     email, pw를 받고 일치하는지 확인한 후
@@ -88,7 +88,21 @@ api.get('/token/:token', async (req, res) => {
 /*
     인증된 사용자인지 체크
 */
-api.use('/check', authMiddleware);
+api.use('/', authMiddleware);
+api.get('/', async (req, res) => {
+    try {
+        const users = await auth.getAuth();
+        res.status(200).json({ users });
+    } catch(e) {
+        console.error(e.message);
+        if(e.status){
+            res.status(e.status).json(e);
+        } else {
+            const error = authErrors.get('EXCEPTION');
+            res.status(error.status).json({ message: error.message });
+        } 
+    }
+});
 api.post('/check', async (req, res) => {
     res.status(200).json({ message: 'success' });
 });
