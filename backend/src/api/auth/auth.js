@@ -128,7 +128,7 @@ export const sendMail = ({ email, token }) => new Promise(async (resolve, reject
 */
 export const getAuth = () => new Promise(async (resolve, reject) => {
 	try {
-		const users = await Auth.find().all();
+		const users = await Auth.find({ authorized: true });
 		resolve(users);
 	} catch(e) {
 		reject(e);

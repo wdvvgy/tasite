@@ -22,7 +22,6 @@ const AUTH_USERS_FAILURE = "AUTH_USERS_FAILURE";
 
 const url = '/api/auth';
 
-
 export const authLogin = (auth) => dispatch => {
 	dispatch({type: AUTH_LOGIN});
 	return axios.post(url + '/login', {
@@ -35,7 +34,6 @@ export const authLogin = (auth) => dispatch => {
 };
 
 export const authCheck = (token) => dispatch => {
-	
 	dispatch({type: AUTH_CHECK});
 	return axios.post(url + '/check', { }, addTokenHeader(token)
 	).then((res) => {

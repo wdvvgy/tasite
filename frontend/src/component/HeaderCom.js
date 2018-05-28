@@ -46,30 +46,35 @@ const LogoutBtn = ({ classes, handleLogout }) => (
 	</span>
 );
 
-const RightAppBar = ({ classes, menu, logged, handleLogout }) => (
+const RightAppBar = ({ classes, menu, handleLogout, checkStatus }) => (
 	<div>
 		<NavLink exact to='/' className={classes.whiteLink} activeClassName={classes.activeLink}>
 			<Button color='inherit'>Home</Button>
 		</NavLink>
 		{
-			menu.map((menuItem, i) => {
-				let path = `/${menuItem.name}`;
-				return (
-					<NavLink to={path} className={classes.whiteLink} activeClassName={classes.activeLink} key={i}>
-						<Button color='inherit'>{menuItem.name}</Button>
-					</NavLink>
-				);
-			})
+			menu.map((menuItem, i) => 
+				(
+					!menuItem.isRequired
+						? <NavLink to={`/${menuItem.name}`} className={classes.whiteLink} activeClassName={classes.activeLink} key={i}>
+							<Button color='inherit'>{menuItem.name}</Button>
+						</NavLink> 
+						: checkStatus
+							? <NavLink to={`/${menuItem.name}`} className={classes.whiteLink} activeClassName={classes.activeLink} key={i}>
+								<Button color='inherit'>{menuItem.name}</Button>
+							</NavLink>
+							: ''
+				)
+			)
 		}
-		{ logged ? <LogoutBtn classes={classes} handleLogout={handleLogout} /> : <LoginLink classes={classes} /> }
+		{ checkStatus ? <LogoutBtn classes={classes} handleLogout={handleLogout} /> : <LoginLink classes={classes} /> }
 	</div>
 );
 
-const HeaderCom = ({ classes, menu, logged, handleLogout }) => (
+const HeaderCom = ({ classes, menu, handleLogout, checkStatus }) => (
 	<AppBar position="absolute" className={classes.appBar}>
 		<Toolbar>
 			<LeftAppBar classes={classes} />
-			<RightAppBar classes={classes} menu={menu} logged={logged} handleLogout={handleLogout} />
+			<RightAppBar classes={classes} menu={menu} handleLogout={handleLogout} checkStatus={checkStatus} />
 		</Toolbar>
 	</AppBar>
 );

@@ -31,6 +31,7 @@ class BookDialog extends Component {
 		url: '',
 		date: '',
 		loading: false,
+		users: [ ]
 	}
 
 	handleInit = () => {
@@ -103,7 +104,13 @@ class BookDialog extends Component {
 				this.props.toggleDialog();
 			}
 		);
+	}
 
+	handleLoadUsers = () => {
+		const token = JSON.parse(localStorage.getItem('devblog')).token;
+		this.props.searchUsers(token).then((users) => {
+			this.setState({ users: users });
+		});
 	}
 
 	render() {
@@ -121,7 +128,8 @@ class BookDialog extends Component {
 					fullScreen={fullScreen}
 					open={this.props.open}
 					onClose={this.props.toggleDialog}
-					aria-labelledby="responsive-dialog-title">
+					aria-labelledby="responsive-dialog-title"
+					onEnter={this.handleLoadUsers}>
 					
 					<DialogTitle id="responsive-dialog-title">
 						도서신청
@@ -132,20 +140,19 @@ class BookDialog extends Component {
 						</DialogContentText>
 						<TextField autoFocus margin="dense" name="name" label="책이름" type="text" fullWidth required
 							onChange={this.handleChange} />
-						<TextField margin="dense" name="email" label="신청자" type="text" fullWidth required
-							onChange={this.handleChange} />
 						<TextField
 							id="select-currency"
+							margin='dense'
+							name='email'
 							select
-							label="Select"
-							value={this.state.currency}
+							label="사용자"
+							value={this.state.email}
 							onChange={this.handleChange}
-							helperText="Please select your currency"
-							margin="normal">
+							fullWidth required>
 							{
-								currencies.map(option => (
-									<MenuItem key={option.value} value={option.value}>
-										{option.label}
+								this.state.users.map((user, idx) => (
+									<MenuItem key={idx} value={user.email}>
+										{user.email}
 									</MenuItem>
 								))
 							}

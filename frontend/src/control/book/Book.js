@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { BookCom } from 'component';
 import { connect } from 'react-redux';
 import { bookCreate, bookGet } from '../../modules/book';
+import { authGet } from '../../modules/auth';
 import { logError } from 'util';
 
 class Book extends Component {
@@ -13,6 +14,7 @@ class Book extends Component {
 		book: PropTypes.array,
 		bookCreate: PropTypes.func.isRequired,
 		bookGet: PropTypes.func.isRequired,
+		users: PropTypes.array,
 	}
 
 	static defaultProps = {
@@ -21,6 +23,7 @@ class Book extends Component {
 		book: [],
 		bookCreate: () => logError('Book bookCreateRequest'),
 		bookGet: () => logError('Book getRequest'),
+		users: [],
 	}
 
 	componentDidMount(){
@@ -44,22 +47,38 @@ class Book extends Component {
 		);
 	}
 
+	handleSearchUsers = (token) => {
+		return this.props.searchUsers(token).then(() => {
+			return this.props.users;
+		});
+	}
+
+	handleEdit = (book) => {
+		console.log(book);
+	}
+
 	render() {
 		return (
 			<div>
-				<BookCom bookCreate={this.handleBookCreate} book={this.props.book}/>
+				<BookCom 
+					bookCreate={this.handleBookCreate} 
+					book={this.props.book} 
+					searchUsers={this.handleSearchUsers} 
+					handleEdit={this.handleEdit}
+				/>
 			</div>
-			
 		);
 	}
 }
 
 const mapStateToProps = (state) => {
 	const book = state.book.toJS();
+	const auth = state.auth.toJS().users;
 	return {
 		createStatus: book.createStatus,
 		getStatus: book.getStatus,
-		book: book.book
+		book: book.book,
+		users: auth.data
 	};
 };
 
@@ -70,6 +89,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		bookGet: (token) => {
 			return dispatch(bookGet(token));
+		},
+		searchUsers: (token) => {
+			return dispatch(authGet(token));
 		}
 	};
 };

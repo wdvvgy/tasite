@@ -29,6 +29,10 @@ api.get('/', async (req, res) => {
     }    
 });
 
+/*
+    book create
+    response: book
+*/
 api.post('/', async (req, res) => {
 	try {
 		const bookInfo = req.body.book;

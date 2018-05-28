@@ -5,6 +5,7 @@ import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import AddIcon from '@material-ui/icons/Add';
+import { logError } from 'util';
 
 const styles = theme => ({
 	root: {
@@ -25,11 +26,13 @@ class BookCom extends Component {
 	static propTypes = {
 		bookCreate: PropTypes.func.isRequired,
 		book: PropTypes.array,
+		searchUsers: PropTypes.func.isRequired
 	};
 
 	static defaultProps = {
-		bookCreate: () => console.warn('BookCom bookCreate'),
+		bookCreate: () => logError('BookCom bookCreate'),
 		book: [ ],
+		searchUsers: () => logError('BookCom searchUsers'),
 	};
 
 	state = {
@@ -43,7 +46,7 @@ class BookCom extends Component {
 
 		return (
 			<div className={classes.root}>
-				<BookDialog open={this.state.open} toggleDialog={this.toggleDialog} bookCreate={this.props.bookCreate} />
+				<BookDialog open={this.state.open} toggleDialog={this.toggleDialog} bookCreate={this.props.bookCreate} searchUsers={this.props.searchUsers}/>
 				<Grid>
 					<Grid container spacing={24} justify='center'>
 						<Grid item xs={8}>
@@ -55,7 +58,7 @@ class BookCom extends Component {
 									<AddIcon />
 								</Button>
 							</Grid>
-							<BookTable book={this.props.book} />
+							<BookTable book={this.props.book} handleEdit={this.props.handleEdit}  />
 						</Grid>
 					</Grid>
 				</Grid>
