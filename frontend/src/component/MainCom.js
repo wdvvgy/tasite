@@ -5,8 +5,8 @@ class MainCom extends Component {
 	render() {
 		return (
 			<div>
-                This is Main
-            </div>
+				This is Main
+			</div>
 		);
 	}
 }

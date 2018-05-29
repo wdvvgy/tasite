@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BookCom } from 'component';
 import { connect } from 'react-redux';
-import { bookCreate, bookGet } from '../../modules/book';
+import { bookCreate, bookGet, bookEdit, bookDelete } from '../../modules/book';
 import { authGet } from '../../modules/auth';
 import { logError } from 'util';
 
@@ -11,6 +11,8 @@ class Book extends Component {
 	static propTypes = {
 		createStatus: PropTypes.string,
 		getStatus: PropTypes.string,
+		editStatus: PropTypes.string,
+		delStatus: PropTypes.string,
 		book: PropTypes.array,
 		bookCreate: PropTypes.func.isRequired,
 		bookGet: PropTypes.func.isRequired,
@@ -20,6 +22,8 @@ class Book extends Component {
 	static defaultProps = {
 		createStatus: '',
 		getStatus: '',
+		editStatus: '',
+		delStatus: '',
 		book: [],
 		bookCreate: () => logError('Book bookCreateRequest'),
 		bookGet: () => logError('Book getRequest'),
@@ -53,8 +57,26 @@ class Book extends Component {
 		});
 	}
 
-	handleEdit = (book) => {
-		console.log(book);
+	handleEdit = ({bookId, book}) => {
+		const token = JSON.parse(localStorage.getItem('devblog')).token;
+		return this.props.bookEdit({ bookId, book, token }).then(
+			() => {
+				if(this.props.editStatus !== 'SUCCESS') return false;
+				this.props.bookGet(token);
+				return true;
+			}
+		);
+	}
+
+	handleDelete = (bookId) => {
+		const token = JSON.parse(localStorage.getItem('devblog')).token;
+		return this.props.bookDelete({ bookId, token }).then(
+			() => {
+				if(this.props.delStatus !== 'SUCCESS') return false;
+				this.props.bookGet(token);
+				return true;
+			}
+		);
 	}
 
 	render() {
@@ -65,6 +87,7 @@ class Book extends Component {
 					book={this.props.book} 
 					searchUsers={this.handleSearchUsers} 
 					handleEdit={this.handleEdit}
+					handleDelete={this.handleDelete}
 				/>
 			</div>
 		);
@@ -77,6 +100,8 @@ const mapStateToProps = (state) => {
 	return {
 		createStatus: book.createStatus,
 		getStatus: book.getStatus,
+		editStatus: book.editStatus,
+		delStatus: book.delStatus,
 		book: book.book,
 		users: auth.data
 	};
@@ -92,6 +117,12 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		searchUsers: (token) => {
 			return dispatch(authGet(token));
+		},
+		bookEdit: ({bookId, book, token}) => {
+			return dispatch(bookEdit({bookId, book, token}));
+		},
+		bookDelete: ({bookId, token}) => {
+			return dispatch(bookDelete({bookId, token}));
 		}
 	};
 };

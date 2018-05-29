@@ -58,7 +58,7 @@ class BookCom extends Component {
 									<AddIcon />
 								</Button>
 							</Grid>
-							<BookTable book={this.props.book} handleEdit={this.props.handleEdit}  />
+							<BookTable book={this.props.book} handleEdit={this.props.handleEdit} handleDelete={this.props.handleDelete} searchUsers={this.props.searchUsers} />
 						</Grid>
 					</Grid>
 				</Grid>

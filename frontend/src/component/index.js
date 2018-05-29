@@ -6,6 +6,7 @@ import BookCom from './book/BookCom';
 import TechCom from './tech/TechCom';
 import BookTable from './book/BookTable';
 import BookDialog from './book/BookDialog';
+import FormDialog from './book/FormDialog';
 import { requireAuthentication } from './AuthenticatedComponent';
 
 export {
@@ -17,5 +18,6 @@ export {
     TechCom,
     BookTable,
     BookDialog,
+    FormDialog,
     requireAuthentication
 };

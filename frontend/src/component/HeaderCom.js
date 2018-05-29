@@ -58,13 +58,13 @@ const RightAppBar = ({ classes, menu, handleLogout, checkStatus }) => (
 						? <NavLink to={`/${menuItem.name}`} className={classes.whiteLink} activeClassName={classes.activeLink} key={i}>
 							<Button color='inherit'>{menuItem.name}</Button>
 						</NavLink> 
-						: checkStatus
+						: (checkStatus
 							? <NavLink to={`/${menuItem.name}`} className={classes.whiteLink} activeClassName={classes.activeLink} key={i}>
 								<Button color='inherit'>{menuItem.name}</Button>
 							</NavLink>
-							: ''
+							: '')
 				)
-			)
+			) 
 		}
 		{ checkStatus ? <LogoutBtn classes={classes} handleLogout={handleLogout} /> : <LoginLink classes={classes} /> }
 	</div>

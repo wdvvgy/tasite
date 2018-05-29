@@ -4,8 +4,8 @@ import { TechCom } from 'component';
 class Tech extends Component {
 	render() {
 		return (
-            <TechCom />
-        );
+			<TechCom />
+		);
 	}
 }
 

@@ -5,7 +5,7 @@ import { Header, Book, Tech, Footer } from 'control';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { MainCom } from 'component';
-import { authCheck } from '../modules/auth';
+import { authCheck, authLogout } from '../modules/auth';
 import { logError } from 'util';
 
 const styles = theme => ({
@@ -28,12 +28,16 @@ class Main extends Component {
 
 	static propTypes = {
 		checkStatus: PropTypes.string,
-		authCheck: PropTypes.func
+		authCheck: PropTypes.func,
+		auth: PropTypes.bool,
+		authLogout: PropTypes.func,
 	}
 
 	static defaultProps = {
 		checkStatus: '',
 		authCheck: () => logError('Main authCheck'),
+		auth: false,
+		authLogout: () => logError('Main authLogout'),
 	}
 
 	state = {
@@ -41,33 +45,17 @@ class Main extends Component {
 			{ name : 'book', component: Book, isRequired: true },
 			{ name : 'tech', component: Tech, isRequired: false }
 		],
-		auth: false
 	};
-
-	static getDerivedStateFromProps(nextProps, prevState) {
-		if(nextProps.checkStatus !== 'SUCCESS') {
-			return { auth: false };
-		};
-		return null;
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		if(nextProps.checkStatus === 'SUCCESS') return true;
-		return false;
-	}
 
 	componentDidMount () {
 		const auth = JSON.parse(localStorage.getItem('devblog'));
 		if(!auth) return;
 		const token = auth.token;
-		this.props.authCheck(token).then(() => {
-			if(this.props.checkStatus !== 'SUCCESS') return;
-			this.setState({ auth: true });
-		});
+		this.props.authCheck(token);
 	}
 
 	handleLogout = () => {
-		this.setState({ auth: false });
+		this.props.authLogout();
 		localStorage.removeItem('devblog');
 		this.props.history.push('/');
 	}
@@ -77,22 +65,24 @@ class Main extends Component {
 		return (
 			<div>
 				<div className={classes.root}>
-					<Header menu={this.state.menu} checkStatus={this.state.auth} handleLogout={this.handleLogout} />
+					<Header menu={this.state.menu} checkStatus={this.props.auth} handleLogout={this.handleLogout} />
 					<div className={classes.toolbar} />
 				</div>
 				<div className={classes.content}>
 					<Route exact path='/' component={MainCom} />
 					{
-						this.state.menu.map((menu, idx) => 
-							(
+						this.state.menu.map((menu, idx) => {
+							
+							return (
 								!menu.isRequired
 									? <Route path={`/${menu.name}`} component={menu.component} key={idx} /> 
-									: this.state.auth 
+									: this.props.auth 
 										? <Route path={`/${menu.name}`} component={menu.component} key={idx} /> 
 										: ''
-							)
-						)
+							);
+						})
 					}
+
 				</div>
 				<Footer />
 			</div>
@@ -104,6 +94,7 @@ const mapStateToProps = (state) => {
 	const auth = state.auth.toJS();
 	return {
 		checkStatus: auth.check.status,
+		auth: auth.check.auth
 	};
 };
 
@@ -112,6 +103,9 @@ const mapDispatchToProps = (dispatch) => {
 		authCheck: (token) => {
 			return dispatch(authCheck(token));
 		},
+		authLogout: () => {
+			return dispatch(authLogout());
+		}
 	};
 };
 

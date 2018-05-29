@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 
 const Auth = new Schema({
     email: String,
+    name: String,
     pw: String,
     created: { type: Date, default: Date.now },
     authorized: { type: Boolean, default: false },

@@ -43,6 +43,10 @@ export const authCheck = (token) => dispatch => {
 	});
 };
 
+export const authLogout = () => dispatch => {
+	dispatch({ type: AUTH_CHECK_FAILURE });
+};
+
 export const authRegister = (auth) => dispatch => {
 	dispatch({type: AUTH_REGISTER});
 	return axios.post(url + '/register', {
@@ -76,7 +80,8 @@ const initialState = Map({
 		desc: ''
 	}),
 	check: Map({
-		status: 'INIT'
+		status: 'INIT',
+		auth: false
 	}),
 	register: Map({
 		status: 'INIT',
@@ -111,10 +116,14 @@ export default handleActions({
 		return state.setIn(['check', 'status'], 'WAITING');
 	},
 	[AUTH_CHECK_SUCCESS]: (state, action) => {
-		return state.setIn(['check', 'status'], 'SUCCESS');
+		return state
+			.setIn(['check', 'status'], 'SUCCESS')
+			.setIn(['check', 'auth'], true);
 	},
 	[AUTH_CHECK_FAILURE]: (state, action) => {
-		return state.setIn(['check', 'status'], 'FAILURE');
+		return state
+			.setIn(['check', 'status'], 'FAILURE')
+			.setIn(['check', 'auth'], false);
 	},
 
 	/* Register */

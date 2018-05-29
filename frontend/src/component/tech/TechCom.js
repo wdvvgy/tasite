@@ -4,8 +4,8 @@ class TechCom extends Component {
 	render() {
 		return (
 			<div>
-                This is Tech
-            </div>
+				This is Tech
+			</div>
 		);
 	}
 }

@@ -11,6 +11,14 @@ export const BOOK_CREATE = "book/create";
 export const BOOK_CREATE_SUCCESS = "book/create/success";
 export const BOOK_CREATE_FAILURE = "book/create/failure";
 
+export const BOOK_EDIT = "book/edit";
+export const BOOK_EDIT_SUCCESS = "book/edit/success";
+export const BOOK_EDIT_FAILURE = "book/edit/failure";
+
+export const BOOK_DELETE = "book/delete";
+export const BOOK_DELETE_SUCCESS = "book/delete/success";
+export const BOOK_DELETE_FAILURE = "book/delete/failure";
+
 const url = '/api/book';
 
 export const bookGet = (token) => dispatch => {
@@ -33,9 +41,32 @@ export const bookCreate = ({ book, token }) => dispatch => {
 	});
 };
 
+export const bookEdit = ({ bookId, book, token }) => dispatch => {
+	dispatch({ type: BOOK_EDIT });
+	return axios.put(url + '/' + bookId, { book }, addTokenHeader(token)
+	).then((res) => {
+		dispatch({ type: BOOK_EDIT_SUCCESS, payload: res });
+	}).catch((error) => {
+		dispatch({ type: BOOK_EDIT_FAILURE, payload: error});
+	});
+};
+
+export const bookDelete = ({ bookId, token }) => dispatch => {
+	
+	dispatch({ type: BOOK_DELETE });
+	return axios.delete(url + '/' + bookId, addTokenHeader(token)
+	).then((res) => {
+		dispatch({ type: BOOK_DELETE_SUCCESS, payload: res });
+	}).catch((error) => {
+		dispatch({ type: BOOK_DELETE_FAILURE , payload: error });
+	});
+};
+
 const initialState = Map({
 	createStatus: 'INIT',
 	getStatus: 'INIT',
+	editStatus: 'INIT',
+	delStatus: 'INIT',
 	book: List([
 
 	]),
@@ -61,6 +92,24 @@ export default handleActions({
 	},
 	[BOOK_CREATE_FAILURE]: (state, action) => {
 		return state.set('createStatus', 'FAILURE');
+	},
+	[BOOK_EDIT]: (state, action) => {
+		return state.set('editStatus', 'WAITING');
+	},
+	[BOOK_EDIT_SUCCESS]: (state, action) => {
+		return state.set('editStatus', 'SUCCESS');
+	},
+	[BOOK_EDIT_FAILURE]: (state, action) => {
+		return state.set('editStatus', 'FAILURE');
+	},
+	[BOOK_DELETE]: (state, action) => {
+		return state.set('delStatus', 'WAITING');
+	},
+	[BOOK_DELETE_SUCCESS]: (state, action) => {
+		return state.set('delStatus', 'SUCCESS');
+	},
+	[BOOK_DELETE_FAILURE]: (state, action) => {
+		return state.set('delStatus', 'FAILURE');
 	},
 }, initialState);
 
