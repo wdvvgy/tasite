@@ -7,7 +7,6 @@ import Icon from 'material-ui/Icon';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from 'material-ui/Button';
 import { BookDialog, FormDialog } from 'component';
-import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 const styles = theme => ({
 	root: {
@@ -54,10 +53,7 @@ class BookTable extends Component {
 	handleDelete = (callback) => {
 		this.props.handleDelete(this.state.delId).then(
 			() => {
-				this.setState({ 
-					delId: '',
-					delOpen: false
-				});
+				this.setState({ delId: '', delOpen: false });
 				callback();
 			}
 		);
@@ -74,13 +70,13 @@ class BookTable extends Component {
 				<BookDialog open={this.state.open} toggleDialog={this.toggleDialog} bookEdit={bookEdit} searchUsers={searchUsers} changeData={this.state.changeData} handleEdit={this.props.handleEdit} />
 				<Table className={classes.table}>
 					<TableHead>
-						<TableRow >
-							<TableCell className={classes.tableTh} component="th">책이름</TableCell>
+						<TableRow>
+							<TableCell  className={classes.tableTh} component="th">책이름</TableCell>
 							<TableCell className={classes.tableTh} component="th">신청자</TableCell>
-							<TableCell className={classes.tableTh} component="th">정보</TableCell>
+							<TableCell  className={classes.tableTh} component="th">정보</TableCell>
 							<TableCell className={classes.tableTh} component="th">날짜</TableCell>
-							<TableCell className={classes.tableTh} component="th">금액</TableCell>
-							<TableCell className={classes.tableTh} component="th" style={{padding:'0px'}}></TableCell>
+							<TableCell  className={classes.tableTh} component="th">금액</TableCell>
+							<TableCell  className={classes.tableTh} component="th">수정 / 삭제</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -88,12 +84,12 @@ class BookTable extends Component {
 							book.map(data => {
 								return (
 									<TableRow className={classes.row} key={data._id}>
-										<TableCell>{data.name}</TableCell>
-										<TableCell>{data.email}</TableCell>
-										<TableCell><Link to={data.url} target='_blank'>{data.url}</Link></TableCell>
-										<TableCell>{data.date.substr(0, 10)}</TableCell>
+										<TableCell style={{width:'30%'}} >{data.name}</TableCell>
+										<TableCell >{data.email}</TableCell>
+										<TableCell ><Link to={data.url} target='_blank'>링크</Link></TableCell>
+										<TableCell >{data.date.substr(0, 10)}</TableCell>
 										<TableCell>{data.price.toLocaleString() + '원'}</TableCell>
-										<TableCell style={{padding:'0px'}}>
+										<TableCell style={{padding: 0}} >
 											<Button variant="fab" mini color="primary" aria-label="edit" className={classes.button} onClick={() => this.toggleDialog(data)}>
 												<Icon>edit_icon</Icon>
 											</Button>

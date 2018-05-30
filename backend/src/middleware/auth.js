@@ -1,38 +1,26 @@
 import jwt from 'jsonwebtoken';
+import { authErrors } from 'error';
 require('dotenv').config();
 const { JWT_SECRET: jwtSecret } = process.env;
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
     const token = req.headers['x-access-token'];
     if(!token) {
-        return res.status(401).json({
-            success: false,
-            auth: false,
-            message: 'not logged in'
-        });
+        const error = authErrors.get('BAD REQUEST');
+        res.status(error.status).json({ message: error.message });
     }
-
-    const p = new Promise(
-        (resolve, reject) => {
-            jwt.verify(token, jwtSecret, (err, decoded) => {
-                if(err) reject(err);
-                resolve();
-            });
-        }
-    );
-
-    const onError = (error) => {
-        res.status(401).json({
-            success: false,
-            auth: false,
-            message: error.message,
-            code: 401
-        });
-    };
-
-    p.then(() => {
+    try {
+        const p = await jwt.verify(token, jwtSecret);
         next();
-    }).catch(onError);
+    } catch(e) {
+        if(e.status){
+            res.status(e.status).json(e);
+        } else {
+            const error = authErrors.get('UNAUTHORIZED');
+            res.status(error.status).json({ message: error.message });
+        }
+    }        
+
 };
 
 export default authMiddleware;

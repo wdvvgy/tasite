@@ -3,21 +3,23 @@ import AuthCom from './auth/AuthCom';
 import AuthDialog from './auth/AuthDialog';
 import MainCom from './MainCom';
 import BookCom from './book/BookCom';
-import TechCom from './tech/TechCom';
 import BookTable from './book/BookTable';
 import BookDialog from './book/BookDialog';
 import FormDialog from './book/FormDialog';
-import { requireAuthentication } from './AuthenticatedComponent';
+import TechCom from './tech/TechCom';
+import TechArticle from './tech/TechArticle';
+import TechForm from './tech/TechForm';
 
 export {
-    HeaderCom,
-    AuthCom,
-    AuthDialog,
-    MainCom,
-    BookCom,
-    TechCom,
-    BookTable,
-    BookDialog,
-    FormDialog,
-    requireAuthentication
+	HeaderCom,
+	AuthCom,
+	AuthDialog,
+	MainCom,
+	BookCom,
+	TechCom,
+	BookTable,
+	BookDialog,
+	FormDialog,
+	TechArticle,
+	TechForm,
 };

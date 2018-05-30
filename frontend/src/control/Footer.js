@@ -6,10 +6,10 @@ import { withStyles } from 'material-ui/styles';
 const styles = {
 	footer: {
 		backgroundColor: '#f9f9f9',
-		bottom: 0,
+		position: 'absolute',
 		textAlign: 'center',
 		width: '100%',
-		margin: '0 auto'
+		margin: '0 auto',
 	},
 	footerPaper: {
 		padding: '1.1rem'

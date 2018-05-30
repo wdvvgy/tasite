@@ -5,6 +5,7 @@ import Auth from './auth/Auth';
 import Book from './book/Book';
 import Tech from './tech/Tech';
 import Footer from './Footer';
+import Lunch from './Lunch';
 
 export {
 	App,
@@ -13,5 +14,6 @@ export {
 	Auth,
 	Book,
 	Tech,
-	Footer
+	Footer,
+	Lunch
 };

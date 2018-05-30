@@ -197,9 +197,7 @@ class AuthCom extends Component {
 										),
 									}}
 								>
-								asd
 								</TextField>
-								
 							</FormControl>
 						</Grid>
 						<Grid container justify='center'>
@@ -212,7 +210,6 @@ class AuthCom extends Component {
 									label="Password"
 									className={classes.input}
 								/>
-								
 							</FormControl>
 						</Grid>
 						{ this.state.mode === false ? passwordCheckForm : ""}

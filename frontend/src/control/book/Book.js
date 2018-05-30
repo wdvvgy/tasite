@@ -81,15 +81,13 @@ class Book extends Component {
 
 	render() {
 		return (
-			<div>
-				<BookCom 
-					bookCreate={this.handleBookCreate} 
-					book={this.props.book} 
-					searchUsers={this.handleSearchUsers} 
-					handleEdit={this.handleEdit}
-					handleDelete={this.handleDelete}
-				/>
-			</div>
+			<BookCom 
+				bookCreate={this.handleBookCreate} 
+				book={this.props.book} 
+				searchUsers={this.handleSearchUsers} 
+				handleEdit={this.handleEdit}
+				handleDelete={this.handleDelete}
+			/>
 		);
 	}
 }

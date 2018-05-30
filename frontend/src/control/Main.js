@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import { Header, Book, Tech, Footer } from 'control';
-import { Route } from 'react-router-dom';
+import { Header, Book, Tech, Footer, Lunch } from 'control';
+import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { MainCom } from 'component';
 import { authCheck, authLogout } from '../modules/auth';
@@ -20,6 +20,7 @@ const styles = theme => ({
 		flexGrow: 1,
 		padding: theme.spacing.unit * 3,
 		minWidth: 0, // So the Typography noWrap works
+		minHeight: '85vh'
 	},
 	toolbar: theme.mixins.toolbar,
 });
@@ -43,7 +44,8 @@ class Main extends Component {
 	state = {
 		menu: [
 			{ name : 'book', component: Book, isRequired: true },
-			{ name : 'tech', component: Tech, isRequired: false }
+			{ name : 'tech', component: Tech, isRequired: false },
+			{ name : 'lunch', component: Lunch, isRequired: false },
 		],
 	};
 
@@ -52,6 +54,14 @@ class Main extends Component {
 		if(!auth) return;
 		const token = auth.token;
 		this.props.authCheck(token);
+	}
+
+	componentDidCatch(err, info) {
+		if(err) {
+			console.log(info);
+			alert('오류가 발생하였습니다.');
+			this.handleLogout();
+		}
 	}
 
 	handleLogout = () => {
@@ -71,18 +81,14 @@ class Main extends Component {
 				<div className={classes.content}>
 					<Route exact path='/' component={MainCom} />
 					{
-						this.state.menu.map((menu, idx) => {
-							
-							return (
-								!menu.isRequired
+						this.state.menu.map((menu, idx) => 
+							!menu.isRequired
+								? <Route path={`/${menu.name}`} component={menu.component} key={idx} /> 
+								: this.props.auth 
 									? <Route path={`/${menu.name}`} component={menu.component} key={idx} /> 
-									: this.props.auth 
-										? <Route path={`/${menu.name}`} component={menu.component} key={idx} /> 
-										: ''
-							);
-						})
+									: ''
+						)
 					}
-
 				</div>
 				<Footer />
 			</div>
@@ -109,4 +115,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Main));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(Main)));

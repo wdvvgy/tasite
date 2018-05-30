@@ -12,6 +12,7 @@ import TextField from 'material-ui/TextField';
 import { LinearProgress } from 'material-ui/Progress';
 import { logError } from 'util';
 import MenuItem from '@material-ui/core/MenuItem';
+import { withRouter } from 'react-router-dom';
 
 class BookDialog extends Component {
 
@@ -34,6 +35,14 @@ class BookDialog extends Component {
 		loading: false,
 		price: 0,
 		users: [ ]
+	}
+
+	componentDidCatch(err, info) {
+		if(err) {
+			console.log(info);
+			alert('오류가 발생하였습니다.');
+			this.props.history.push('/');
+		}
 	}
 
 	handleInit = () => {
@@ -241,4 +250,4 @@ class BookDialog extends Component {
 	}
 }
 
-export default withMobileDialog()(BookDialog);
+export default withMobileDialog()(withRouter(BookDialog));

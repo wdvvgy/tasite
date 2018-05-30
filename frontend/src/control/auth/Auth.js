@@ -61,9 +61,10 @@ class Auth extends Component {
 	
 	render(){
 		return (
-		  <div>
-			  <AuthCom onLogin={this.handleLogin} onRegister={this.handleRegister} />
-		  </div>
+			<AuthCom 
+				onLogin={this.handleLogin} 
+				onRegister={this.handleRegister}
+			/>
 		);
 	}
 }

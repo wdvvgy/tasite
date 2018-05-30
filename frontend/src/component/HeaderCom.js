@@ -9,6 +9,8 @@ import Button from 'material-ui/Button';
 const styles = theme =>  ({
 	appBar: {
 		zIndex: theme.zIndex.drawer + 1,
+		top: 0,
+		position: 'fixed',
 	},
 	flex: {
 		marginLeft: 30,
@@ -71,7 +73,7 @@ const RightAppBar = ({ classes, menu, handleLogout, checkStatus }) => (
 );
 
 const HeaderCom = ({ classes, menu, handleLogout, checkStatus }) => (
-	<AppBar position="absolute" className={classes.appBar}>
+	<AppBar className={classes.appBar}>
 		<Toolbar>
 			<LeftAppBar classes={classes} />
 			<RightAppBar classes={classes} menu={menu} handleLogout={handleLogout} checkStatus={checkStatus} />
