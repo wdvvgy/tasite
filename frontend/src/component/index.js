@@ -7,8 +7,9 @@ import BookTable from './book/BookTable';
 import BookDialog from './book/BookDialog';
 import FormDialog from './book/FormDialog';
 import TechCom from './tech/TechCom';
-import TechArticle from './tech/TechArticle';
+import TechList from './tech/TechList';
 import TechForm from './tech/TechForm';
+import TechArticle from './tech/TechArticle';
 
 export {
 	HeaderCom,
@@ -20,6 +21,7 @@ export {
 	BookTable,
 	BookDialog,
 	FormDialog,
-	TechArticle,
+	TechList,
 	TechForm,
+	TechArticle
 };

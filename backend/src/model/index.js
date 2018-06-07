@@ -1,4 +1,5 @@
 import Auth from './auth';
-import Book from './Book';
+import Book from './book';
+import Tech from './tech';
 
-export { Auth, Book };
+export { Auth, Book, Tech };
