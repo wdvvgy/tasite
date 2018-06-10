@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
-import { TechArticle } from 'component';
+import { TechList } from 'component';
 import Button from 'material-ui/Button';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { logError } from 'util';
 
 const styles = theme => ({
 	root: {
@@ -20,8 +22,17 @@ const styles = theme => ({
 });
 
 class TechCom extends Component {
+
+	static propTypes = {
+		tech: PropTypes.array,
+	};
+
+	static defaultProps = {
+		tech: [ ],
+	};
+
 	render() {
-		const { classes } = this.props;
+		const { classes, tech } = this.props;
 		return (
 			<div>
 				<Grid container justify='flex-end' alignItems='flex-end'>
@@ -38,26 +49,14 @@ class TechCom extends Component {
 					direction='row'
 					justify='center'
 					spacing={16}>
-					<Grid item xs={4} className={classes.item}>
-						<TechArticle />
-					</Grid>
-					<Grid item xs={4} className={classes.item}>
-						<TechArticle />
-					</Grid>
-					<Grid item xs={4} className={classes.item}>
-						<TechArticle />
-					</Grid>
-					<Grid item xs={4} className={classes.item}>
-						<TechArticle />
-					</Grid>
-					<Grid item xs={4} className={classes.item}>
-						<TechArticle />
-					</Grid>
-					<Grid item xs={4} className={classes.item}>
-						<TechArticle />
-					</Grid>
-					<Grid item xs={4} className={classes.item}>
-						<TechArticle />
+					<Grid item xs={12} className={classes.item} >
+						{
+							tech.map(item => {
+								return (
+									<TechList item={item} key={item._id}/>
+								);
+							})
+						}
 					</Grid>
 				</Grid>
 			</div>

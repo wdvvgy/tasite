@@ -1,41 +1,41 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import classnames from 'classnames';
 
 const styles = theme => ({
 	card: {
-	  	maxWidth: 400,
+		height: 200,
+		overflow: 'hidden',
+		whiteSpace: 'nowrap',
+		textOverflow: 'ellipsis',
+		marginBottom: '1rem',
+		marginTop: '1rem',
+		paddingLeft: '1rem',
+		paddingRight: '1rem',
 	},
-	media: {
-		height: 194,
+	header: {
+		height: 30,
+		whiteSpace: 'nowrap',
+    	overflow: 'hidden',
+		textOverflow: 'ellipsis'
+	},
+	title: {
+		height: 30,
+		whiteSpace: 'nowrap',
+    	overflow: 'hidden',
+		textOverflow: 'ellipsis',
 		
 	},
-	actions: {
-	  	display: 'flex',
+	ellipsis: {
+		whiteSpace: 'nowrap',
+    	overflow: 'hidden',
+    	textOverflow: 'ellipsis'
 	},
-	expand: {
-		transform: 'rotate(0deg)',
-		transition: theme.transitions.create('transform', {
-			duration: theme.transitions.duration.shortest,
-		}),
-		marginLeft: 'auto',
-	},
-	expandOpen: {
-		transform: 'rotate(180deg)',
-	},
-	avatar: {
-		backgroundColor: red[500],
+	content: {
+		
+		height: 50,	
+		whiteSpace: 'nowrap',
+    	overflow: 'hidden',
+    	textOverflow: 'ellipsis'
 	},
 });
 
@@ -51,28 +51,7 @@ class TechArticle extends Component {
 		const { classes } = this.props;
 		return (
 			<div>
-				<Card className={classes.card}>
-					<CardHeader
-						avatar='writer'
-						title="title"
-						subheader="date" />
-					<CardMedia
-						className={classes.media}
-						image="/static/images/cards/paella.jpg"
-						title="Contemplative Reptile"
-					/>
-					<CardContent>
-						<Typography component="p">
-						This impressive paella is a perfect party dish and a fun meal to cook together with
-						your guests. Add 1 cup of frozen peas along with the mussels, if you like.
-						</Typography>
-					</CardContent>
-					<CardActions className={classes.actions} disableActionSpacing>
-						<IconButton aria-label="Add to favorites">
-							<FavoriteIcon />
-						</IconButton>
-					</CardActions>
-				</Card>
+				hello
 			</div>
 		);
 	}
