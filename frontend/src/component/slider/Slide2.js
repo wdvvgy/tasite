@@ -1,0 +1,15 @@
+import React, { Component } from 'react';
+import Image from '../img/aateam2.jpg'
+
+const Slide2= (props) => {
+  let background = {
+    height:'100%',
+    backgroundImage: `url(${Image})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  }
+
+  return <div style={background} className="slide"></div>
+}
+
+export default Slide2;
